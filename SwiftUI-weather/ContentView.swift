@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
         
         ZStack {
-            BackgroundView(isDarkMode: $isDarkMode)
+            BackgroundView(isDarkMode: isDarkMode)
             VStack (spacing: 30){
                 CityTextView(cityName: "\(selectedCity), GH")
             
@@ -34,7 +34,7 @@ struct ContentView: View {
                     selectedCity = "Abaka";
                     isDarkMode = !isDarkMode;
                 } label: {
-                    isDarkMode == false ? ChangeButton(title: "Change Day Time", textColor: Color.white, bgColor: .blue) : ChangeButton(title: "Change Day Time", textColor: Color.white, bgColor: .black)
+                    isDarkMode == false ? ChangeButton(title: "Change Day Time", textColor: Color.blue, bgColor: .white) : ChangeButton(title: "Change Day Time", textColor: Color.black, bgColor: .white)
                 }
                 Spacer()
             }
@@ -66,12 +66,14 @@ struct WeatherDayView: View {
 
 struct BackgroundView: View {
     
-    @Binding var isDarkMode: Bool;
+    var isDarkMode: Bool;
     
     var body: some View {
-       
-        LinearGradient(gradient: Gradient(colors: [!isDarkMode ? .blue : .black, isDarkMode ? Color("lightBlue") : .white]), startPoint: .topLeading,
-                       endPoint: .bottomTrailing).ignoresSafeArea()
+//       
+//        LinearGradient(gradient: Gradient(colors: [!isDarkMode ? .blue : .black, isDarkMode ? Color("lightBlue") : .white]), startPoint: .topLeading,
+//                       endPoint: .bottomTrailing).ignoresSafeArea()
+        
+        ContainerRelativeShape().fill(isDarkMode ? Color.black.gradient : Color.blue.gradient).ignoresSafeArea()
     }
 }
 
@@ -93,9 +95,9 @@ struct MainWeatherStatusView: View {
     
     var body: some View {
         VStack(spacing: 10, content: {
-            Image(systemName: "\(iconName)")
-                .resizable()
-                .renderingMode(.original)
+            Image(systemName: "\(iconName)").resizable()
+                .symbolRenderingMode(.multicolor).symbolEffect(.pulse, value: true)
+//                .foregroundStyle(.yellow, .blue, .green)
                 .frame(width: 200, height: 160)
             Text("\(temp)°").foregroundColor(.white).font(.system(size: 70, weight: .medium))
         }).padding(20 )

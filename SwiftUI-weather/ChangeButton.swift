@@ -17,7 +17,7 @@ struct ChangeButton: View {
         
         Text(title)
             .frame(width: 280, height: 50)
-            .background(bgColor)
+            .background(bgColor.gradient)
             .foregroundColor(textColor)
             .cornerRadius(20)
         
