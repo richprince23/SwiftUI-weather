@@ -10,16 +10,16 @@ import SwiftUI
 struct ContentView: View {
     
     @State var selectedCity = "Edumfa";
-    @State var isDarkMode = false;
+    @State private var isDarkMode = false;
     
     var body: some View {
         
         ZStack {
-            BackgroundView(topColor: Color.blue, bottomColor: Color("lightBlue"))
+            BackgroundView(isDarkMode: $isDarkMode)
             VStack (spacing: 30){
                 CityTextView(cityName: "\(selectedCity), GH")
             
-               MainWeatherStatusView(iconName: "cloud.sun.fill", temp: 33)
+                MainWeatherStatusView(iconName:isDarkMode ? "moon.stars.fill" : "cloud.sun.fill", temp: 33)
                                 
                 HStack(spacing: 20){
                     WeatherDayView(day: "Tue", imgName: "cloud.sun.fill", temp: 23)
@@ -32,8 +32,9 @@ struct ContentView: View {
                 Button{
                     print("tapped")
                     selectedCity = "Abaka";
+                    isDarkMode = !isDarkMode;
                 } label: {
-                    ChangeButton(title: "Change Day Time", textColor: Color.white, bgColor: .blue)
+                    isDarkMode == false ? ChangeButton(title: "Change Day Time", textColor: Color.white, bgColor: .blue) : ChangeButton(title: "Change Day Time", textColor: Color.white, bgColor: .black)
                 }
                 Spacer()
             }
@@ -64,12 +65,12 @@ struct WeatherDayView: View {
 }
 
 struct BackgroundView: View {
-    var topColor: Color;
-    var bottomColor: Color;
+    
+    @Binding var isDarkMode: Bool;
     
     var body: some View {
        
-        LinearGradient(gradient: Gradient(colors: [topColor, bottomColor]), startPoint: .topLeading,
+        LinearGradient(gradient: Gradient(colors: [!isDarkMode ? .blue : .black, isDarkMode ? Color("lightBlue") : .white]), startPoint: .topLeading,
                        endPoint: .bottomTrailing).ignoresSafeArea()
     }
 }
@@ -93,9 +94,9 @@ struct MainWeatherStatusView: View {
     var body: some View {
         VStack(spacing: 10, content: {
             Image(systemName: "\(iconName)")
-                .renderingMode(.original)
                 .resizable()
-                .frame(width: 180, height: 120)
+                .renderingMode(.original)
+                .frame(width: 200, height: 160)
             Text("\(temp)°").foregroundColor(.white).font(.system(size: 70, weight: .medium))
         }).padding(20 )
     }
