@@ -96,7 +96,7 @@ struct MainWeatherStatusView: View {
     var body: some View {
         VStack(spacing: 10, content: {
             Image(systemName: "\(iconName)").resizable()
-                .symbolRenderingMode(.multicolor).symbolEffect(.pulse, value: true)
+                .symbolRenderingMode(.multicolor).symbolEffect(.pulse, value:true)
 //                .foregroundStyle(.yellow, .blue, .green)
                 .frame(width: 200, height: 160)
             Text("\(temp)°").foregroundColor(.white).font(.system(size: 70, weight: .medium))
